@@ -12,7 +12,7 @@ client = MongoClient(os.getenv("MONGO_URL"))
 db = client.mma
 
 # Check DB Route
-@app.route('/check_db')
+@app.route('/api/check_db')
 def check_db():
     try:
         # check if we can connect to the server
@@ -22,7 +22,7 @@ def check_db():
         return jsonify({"status": "error", "message": "Failed to connect to MongoDB", "error": str(e)})
 
 # Create users
-@app.route('/new_user', methods=['POST'])
+@app.route('/api/new_user', methods=['POST'])
 def create_user():
     data = request.get_json()
     print("Data received: ", data)
@@ -37,7 +37,7 @@ def create_user():
     return jsonify({"message": "User created", "user_id": str(result.inserted_id)})
 
 # Create a new workout
-@app.route('/create_workouts', methods=['POST'])
+@app.route('/api/create_workouts', methods=['POST'])
 def create_workout():
     data = request.get_json()
     print("Data received: ", data)
@@ -65,7 +65,7 @@ def create_workout():
 
 
 # Generate a random workout
-@app.route('/random_workout')
+@app.route('/api/random_workout')
 def random_workout():
     workouts_collection = db.workouts
     workouts = list(workouts_collection.find({},{'_id':0}))
@@ -74,7 +74,7 @@ def random_workout():
 
 
 # Check users
-@app.route('/users')
+@app.route('/api/users')
 def users():
     users_collection = db.users
     users = list(users_collection.find({},{'_id':0}))
